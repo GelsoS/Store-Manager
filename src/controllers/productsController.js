@@ -12,7 +12,15 @@ const productId = async (req, res) => {
   res.status(200).json(result);
 };
 
+const cadastro = async (req, res) => {
+  const { name } = req.body;
+  const result = await service.cadastrarProduto(name);
+  const nome = await service.productId(result.insertId);
+  res.status(201).json(nome);
+};
+
 module.exports = {
   listProducts,
   productId,
+  cadastro,
 };

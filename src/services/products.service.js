@@ -11,7 +11,13 @@ const productId = async (id) => {
   return result;
 };
 
+const cadastrarProduto = async (nome) => {
+  const [result] = await model.insert(nome);
+  return result;
+};
+
 module.exports = {
   listProducts,
   productId,
+  cadastrarProduto,
 };
