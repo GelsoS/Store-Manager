@@ -15,6 +15,7 @@ const productId = async (req, res) => {
 const cadastro = async (req, res) => {
   const { name } = req.body;
   const result = await service.cadastrarProduto(name);
+  if (result.status) return res.status(result.status).json({ message: result.message });
   const nome = await service.productId(result.insertId);
   res.status(201).json(nome);
 };

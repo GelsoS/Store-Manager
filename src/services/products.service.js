@@ -12,6 +12,13 @@ const productId = async (id) => {
 };
 
 const cadastrarProduto = async (nome) => {
+  if (!nome) return { status: 400, message: '"name" is required' };
+  if (nome.length < 5) {
+    return {
+      status: 422,
+      message: '"name" length must be at least 5 characters long',
+    };
+  }
   const [result] = await model.insert(nome);
   return result;
 };
