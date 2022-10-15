@@ -13,6 +13,16 @@ const products = [
   }
 ]
 
+const cadastrarMock = {
+  "affectedRows": 1,
+  "fieldCount": 0,
+  "info": "",
+  "insertId": 4,
+  "serverStatus": 2,
+  "warningStatus": 0
+}
 
-
-module.exports = products;
+module.exports = {
+  products,
+  cadastrarMock,
+};

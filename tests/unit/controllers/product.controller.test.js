@@ -7,10 +7,11 @@ chai.use(sinonChai);
 
 const { productIdMock, mockIdErro } = require('./mocks/product.controllerMock')
 const products = require('../models/mocks/products.model')
-const productService = require('../../../src/services')
+const  productService  = require('../../../src/services/products.service')
 const productsController = require('../../../src/controllers/productsController')
 
 describe('testes de unidade de Controller de produtos', function () {
+
   it('listar todos produtos', async function () {
     const res = {}
     const req = {}
@@ -67,7 +68,50 @@ describe('testes de unidade de Controller de produtos', function () {
     expect(res.json).to.have.been.calledWith(productIdMock)
   })
 
+  it('teste cadastrar produtos', async function () {
+    const res = {};
+    const req = { body: { name: 'gelson' } };
 
-  afterEach(sinon.restore)
+    res.status = sinon.stub().returns(res)
+    res.json = sinon.stub().returns()
+    sinon
+      .stub(productService, 'cadastrarProduto')
+      .resolves({
+        "affectedRows": 1,
+        "fieldCount": 0,
+        "info": "",
+        "insertId": 4,
+        "serverStatus": 2,
+        "warningStatus": 0,
+      })
+
+    await productsController.cadastro(req, res)
+    expect(res.status).to.have.been.calledWith(201);
+    expect(res.json).to.have.been.calledWith({
+      "id": 4,
+      "name": "gelson"
+    })
+  })
+
+  it('teste cadastrar produtos sem nome', async function () {
+    const res = {};
+    const req = { body: { name: '' } };
+
+    res.status = sinon.stub().returns(res)
+    res.json = sinon.stub().returns()
+    sinon
+      .stub(productService, 'cadastrarProduto')
+      .resolves({
+        status: 400, message: '"name" is required'
+      })
+
+    await productsController.cadastro(req, res)
+    expect(res.status).to.have.been.calledWith(400);
+    expect(res.json).to.have.been.calledWith({
+      "message": "\"name\" is required"
+    })
+  })
+
+  afterEach(() => sinon.restore())
 
 })
