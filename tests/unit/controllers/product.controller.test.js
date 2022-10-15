@@ -5,12 +5,12 @@ const { expect } = chai;
 
 chai.use(sinonChai);
 
-const { productIdMock, mockIdErro } = require('./mocks/product.controllerMock')
-const products = require('../models/mocks/products.model')
-const  productService  = require('../../../src/services/products.service')
+const { productIdMock } = require('./mocks/product.controllerMock')
+const { products } = require('../models/mocks/products.model')
+const productService = require('../../../src/services/products.service')
 const productsController = require('../../../src/controllers/productsController')
 
-describe('testes de unidade de Controller de produtos', function () {
+describe('unidade Controller de produtos', function () {
 
   it('listar todos produtos', async function () {
     const res = {}
@@ -113,5 +113,6 @@ describe('testes de unidade de Controller de produtos', function () {
   })
 
   afterEach(() => sinon.restore())
-
 })
+
+

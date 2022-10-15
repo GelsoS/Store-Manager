@@ -3,8 +3,5 @@ const productIdMock = {
   name: "Martelo de Thor"
 }
 
-const mockIdErro = {
-  message: "Product not found"
-}
 
-module.exports = { productIdMock, mockIdErro }
+module.exports = { productIdMock }

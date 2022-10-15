@@ -14,9 +14,9 @@ const cadastrarVenda = async (venda) => {
   const id = await model.createSale();
 
   const resposta = await venda.map((a) => model.insert(a, id)); // model.insert(a)
-  const ret = await Promise.all(resposta);
+  await Promise.all(resposta);
 
-  if (ret) return { status: 201, message: { id, itemsSold: venda } };
+  return { status: 201, message: { id, itemsSold: venda } };
 };
 
-module.exports = cadastrarVenda; 
+module.exports = { cadastrarVenda }; 
