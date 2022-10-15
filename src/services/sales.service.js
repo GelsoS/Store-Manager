@@ -19,4 +19,19 @@ const cadastrarVenda = async (venda) => {
   return { status: 201, message: { id, itemsSold: venda } };
 };
 
-module.exports = { cadastrarVenda }; 
+const listarVendas = async () => {
+  const sale = await model.listSales();
+  return sale;
+};
+
+const listarId = async (id) => {
+  const result = await model.asId(id);
+  if (result.length === 0) return { status: 404, message: { message: 'Sale not found' } };
+  return { status: 200, message: result };
+};
+
+module.exports = {
+  cadastrarVenda,
+  listarVendas,
+  listarId,
+}; 

@@ -1,4 +1,4 @@
-const { cadastrarVenda } = require('../services/sales.service');
+const { cadastrarVenda, listarVendas, listarId } = require('../services/sales.service');
 
 const cadastrarVendaController = async (req, res) => {
   const { status, message } = await cadastrarVenda(req.body);
@@ -6,6 +6,19 @@ const cadastrarVendaController = async (req, res) => {
   res.status(201).json(message);
 };
 
+const listVendas = async (_req, res) => {
+  const result = await listarVendas();
+  res.status(200).json(result);
+};
+
+const listId = async (req, res) => {
+  const { id } = req.params;
+  const { status, message } = await listarId(+id);
+  res.status(status).json(message);
+};
+
 module.exports = {
   cadastrarVendaController,
+  listVendas,
+  listId,
 };
