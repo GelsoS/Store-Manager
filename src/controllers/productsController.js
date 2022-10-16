@@ -25,9 +25,16 @@ const update = async (req, res) => {
   res.status(status).json(message);
 };
 
+const del = async (req, res) => {
+  const { id } = req.params;
+  const { status, message } = await service.delId(+id);
+  res.status(status).json(message);
+};
+
 module.exports = {
   listProducts,
   productId,
   cadastro,
   update,
+  del,
 };
