@@ -44,6 +44,8 @@ const listarId = [
   }
 ]
 
+
+
 module.exports = {
   sales,
   listarId,

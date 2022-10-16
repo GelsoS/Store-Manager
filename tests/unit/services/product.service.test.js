@@ -1,9 +1,11 @@
 const { expect } = require('chai');
 const sinon = require('sinon')
 
-const { listProducts, productId, cadastrarProduto, updateId } = require('../../../src/services/products.service')
+const { listProducts, productId, cadastrarProduto, updateId, delId } = require('../../../src/services/products.service')
 const { cadastrarMock, products } = require('../models/mocks/products.model')
 const service = require('../../../src/services/products.service')
+const serviceSale = require('../../../src/services/sales.service')
+const { SaleDelId } = require('../../../src/services/sales.service')
 
 describe('testes de unidade de Service de produtos', function () {
   it('listar todos produtos', async function () {
@@ -78,6 +80,24 @@ describe('testes de unidade de Service de produtos', function () {
     expect(result).to.be.deep.equal({
       status: 404, message: { "message": "Product not found" }
     })
+  })
+
+  it('deletar produto pelo id', async function () {
+    sinon.stub(service, 'delId').resolves({ status: 204 })
+    const result = await delId(1)
+    expect(result).to.be.deep.equal({ status: 204 })
+  })
+
+  it('deletar produto Id inexistente', async function () {
+    sinon.stub(service, 'delId').resolves({ status: 404, message: { message: 'Product not found' } })
+    const result = await delId(10)
+    expect(result).to.be.deep.equal({ status: 404, message: { message: 'Product not found' } })
+  })
+
+  it('deletar Sale Id inexistente', async function () {
+    sinon.stub(serviceSale, 'SaleDelId').resolves({ status: 404, message: { message: 'Sale not found' } })
+    const result = await SaleDelId(10)
+    expect(result).to.be.deep.equal({ status: 404, message: { message: 'Sale not found' } })
   })
 
   afterEach(sinon.restore)

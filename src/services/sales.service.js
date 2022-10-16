@@ -30,8 +30,15 @@ const listarId = async (id) => {
   return { status: 200, message: result };
 };
 
+const SaleDelId = async (id) => {
+  const [result] = await model.deleteIdSales(id);
+  if (result.affectedRows === 1) return { status: 204 };
+  return { status: 404, message: { message: 'Sale not found' } };
+};
+
 module.exports = {
   cadastrarVenda,
   listarVendas,
   listarId,
+  SaleDelId,
 }; 

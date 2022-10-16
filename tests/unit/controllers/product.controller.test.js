@@ -130,6 +130,21 @@ describe('unidade Controller de produtos', function () {
     })
   })
 
+  it('deletar com sucesso!', async function () {
+    const res = {};
+    const req = { params: { id: 1 } };
+
+    res.status = sinon.stub().returns(res)
+    res.json = sinon.stub().returns()
+    sinon
+      .stub(productService, 'delId')
+      .resolves({ status: 204 })
+
+    await productsController.del(req, res)
+    expect(res.status).to.have.been.calledWith(204);
+    expect(res.json).to.have.been.calledWith()
+  })
+
   afterEach(() => sinon.restore())
 })
 

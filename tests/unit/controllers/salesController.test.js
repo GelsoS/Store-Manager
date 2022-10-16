@@ -157,5 +157,42 @@ describe('unidade Controller de sales', function () {
     })
   })
 
+  it('recuperar venda pelo ID!', async function () {
+    const res = {}
+    const req = {
+      params: { id: 1 }
+    }
+    res.status = sinon.stub().returns(res)
+    res.json = sinon.stub().returns()
+
+    sinon
+      .stub(salesService, 'listarId')
+      .resolves({
+        status: 200, message: listarId
+      })
+
+    await salesController.listId(req, res)
+
+    expect(res.status).to.have.been.calledWith(200)
+    expect(res.json).to.have.been.calledWith()
+  })
+
+  it('deletar item com sucesso!', async function () {
+    const res = {}
+    const req = {
+      params: { id: 2 }
+    }
+    res.status = sinon.stub().returns(res)
+    res.json = sinon.stub().returns()
+
+    sinon
+      .stub(salesService, 'SaleDelId')
+      .resolves({ status: 204, })
+
+    await salesController.del(req, res)
+
+    expect(res.status).to.have.been.calledWith(204)
+  })
+
   afterEach(sinon.restore)
 })
