@@ -23,8 +23,24 @@ const cadastrarProduto = async (nome) => {
   return result;
 };
 
+const updateId = async (id, name) => {
+  if (!name) return { status: 400, message: { message: '"name" is required' } };
+  if (name.length < 5) {
+    return {
+      status: 422,
+      message: {
+        message: '"name" length must be at least 5 characters long',
+      },
+    };
+  }
+  const [result] = await model.updateM(id, name);
+  if (result.changedRows === 0) return { status: 404, message: { message: 'Product not found' } };
+  return { status: 200, message: { id, name } };
+};
+
 module.exports = {
   listProducts,
   productId,
   cadastrarProduto,
+  updateId,
 };

@@ -19,8 +19,15 @@ const cadastro = async (req, res) => {
   res.status(201).json({ id: result.insertId, name });
 };
 
+const update = async (req, res) => {
+  const { params: { id }, body: { name } } = req;
+  const { status, message } = await service.updateId(+id, name);
+  res.status(status).json(message);
+};
+
 module.exports = {
   listProducts,
   productId,
   cadastro,
+  update,
 };
