@@ -1,14 +1,14 @@
 const { expect } = require('chai');
 const sinon = require('sinon')
 
-const { listProducts, productId, cadastrarProduto } = require('../../../src/services/products.service')
+const { listProducts, productId, cadastrarProduto, updateId } = require('../../../src/services/products.service')
 const { cadastrarMock, products } = require('../models/mocks/products.model')
 const service = require('../../../src/services/products.service')
 
 describe('testes de unidade de Service de produtos', function () {
   it('listar todos produtos', async function () {
     sinon.stub(service, 'listProducts').resolves(products)
-    const result = await listProducts() 
+    const result = await listProducts()
     expect(result).to.be.deep.equal(products)
   })
 
@@ -46,6 +46,38 @@ describe('testes de unidade de Service de produtos', function () {
     sinon.stub(service, 'cadastrarProduto').resolves({ status: 400, message: '"name" is required' })
     const result = await cadastrarProduto('')
     expect(result).to.be.deep.equal({ status: 400, message: '"name" is required' })
+  })
+
+  it('update sem valor campo name!', async function () {
+    sinon.stub(service, 'updateId').resolves({ status: 400, message: { message: '"name" is required' } })
+    const result = await updateId(1, '')
+    expect(result).to.be.deep.equal({ status: 400, message: { message: '"name" is required' } })
+  })
+
+  it('update campo name menos de 5 caracteres!', async function () {
+    sinon.stub(service, 'updateId').resolves({ status: 422, message: { message: '"name" length must be at least 5 characters long' } })
+    const result = await updateId(1, 'gel')
+    expect(result).to.be.deep.equal({ status: 422, message: { message: '"name" length must be at least 5 characters long' } })
+  })
+
+  it('update com sucesso!', async function () {
+    sinon.stub(service, 'updateId').resolves({
+      status: 200, message: { "id": 2, "name": "gelson" }
+    })
+    const result = await updateId(2, 'gelson')
+    expect(result).to.be.deep.equal({
+      status: 200, message: { "id": 2, "name": "gelson" }
+    })
+  })
+
+  it('update ID invalido!', async function () {
+    sinon.stub(service, 'updateId').resolves({
+      status: 404, message: { "message": "Product not found" }
+    })
+    const result = await updateId(20, 'gelson')
+    expect(result).to.be.deep.equal({
+      status: 404, message: { "message": "Product not found" }
+    })
   })
 
   afterEach(sinon.restore)

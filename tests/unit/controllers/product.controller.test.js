@@ -112,6 +112,24 @@ describe('unidade Controller de produtos', function () {
     })
   })
 
+  it('Update com sucesso!', async function () {
+    const res = {};
+    const req = { params: { id: 1 }, body: { name: 'gelso' } };
+
+    res.status = sinon.stub().returns(res)
+    res.json = sinon.stub().returns()
+    sinon
+      .stub(productService, 'updateId')
+      .resolves({ status: 200, message: { "id": 1, "name": "gelso" } })
+
+    await productsController.update(req, res)
+    expect(res.status).to.have.been.calledWith(200);
+    expect(res.json).to.have.been.calledWith({
+      "id": 1,
+      "name": "gelso"
+    })
+  })
+
   afterEach(() => sinon.restore())
 })
 
