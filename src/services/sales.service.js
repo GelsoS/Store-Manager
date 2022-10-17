@@ -37,24 +37,20 @@ const SaleDelId = async (id) => {
 };
 
 const updateSales = async (id, body) => {
-  // console.log('body ', body);
-  const result = existe(body);
-  // console.log('existe ', result);
-  if (result) return result;
-
   const check = limite(body);
-  // console.log('check ', check);
   if (check) return check;
 
+  const result = existe(body);
+  if (result) return result;
+
   const valid = await verificaId(body);
-  // console.log('valid ', valid);
   if (valid) return valid;
 
   const resultado = await body
     .map(({ quantity, productId }) => model.updateSaleM(+quantity, +productId, id));
   
   const [[rest]] = await Promise.all(resultado);
-  if (rest.affectedRows === 0) return { status: 404, message: { message: 'Sale not found' } };
+  if (rest.affectedRows === 0) return { status: 404, message: 'Sale not found' };
 
   return { status: 200, message: { saleId: id, itemsUpdated: body } };
 };

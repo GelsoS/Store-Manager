@@ -27,8 +27,8 @@ const del = async (req, res) => {
 const update = async (req, res) => {
   const { params: { id }, body } = req;
   const { status, message } = await updateSales(+id, body);
-  console.log(status, message);
-  res.status(status).json(message);
+  if (message.saleId) return res.status(status).json(message);
+  res.status(status).json({ message });
 };
 
 module.exports = {
