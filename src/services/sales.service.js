@@ -13,7 +13,7 @@ const cadastrarVenda = async (venda) => {
 
   const id = await model.createSale();
 
-  const resposta = await venda.map((a) => model.insert(a, id)); // model.insert(a)
+  const resposta = await venda.map((a) => model.insert(a, id));
   await Promise.all(resposta);
 
   return { status: 201, message: { id, itemsSold: venda } };
@@ -36,9 +36,33 @@ const SaleDelId = async (id) => {
   return { status: 404, message: { message: 'Sale not found' } };
 };
 
+const updateSales = async (id, body) => {
+  // console.log('body ', body);
+  const result = existe(body);
+  // console.log('existe ', result);
+  if (result) return result;
+
+  const check = limite(body);
+  // console.log('check ', check);
+  if (check) return check;
+
+  const valid = await verificaId(body);
+  // console.log('valid ', valid);
+  if (valid) return valid;
+
+  const resultado = await body
+    .map(({ quantity, productId }) => model.updateSaleM(+quantity, +productId, id));
+  
+  const [[rest]] = await Promise.all(resultado);
+  if (rest.affectedRows === 0) return { status: 404, message: { message: 'Sale not found' } };
+
+  return { status: 200, message: { saleId: id, itemsUpdated: body } };
+};
+
 module.exports = {
   cadastrarVenda,
   listarVendas,
   listarId,
   SaleDelId,
+  updateSales,
 }; 

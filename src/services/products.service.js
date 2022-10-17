@@ -44,10 +44,20 @@ const delId = async (id) => {
   return { status: 404, message: { message: 'Product not found' } };
 };
 
+const searchService = async (query) => {
+  const [result] = await model.searchModel(query);
+  if (!result[0]) {
+    const [retorno] = await listProducts();
+    return retorno;
+  }
+  return result;
+};
+
 module.exports = {
   listProducts,
   productId,
   cadastrarProduto,
   updateId,
   delId,
+  searchService,
 };

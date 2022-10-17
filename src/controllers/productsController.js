@@ -31,10 +31,17 @@ const del = async (req, res) => {
   res.status(status).json(message);
 };
 
+const search = async (req, res) => {
+  const { q } = req.query;
+  const result = await service.searchService(q);
+  res.status(200).json(result);
+};
+
 module.exports = {
   listProducts,
   productId,
   cadastro,
   update,
   del,
+  search,
 };

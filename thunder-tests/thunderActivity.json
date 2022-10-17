@@ -4,13 +4,19 @@
     "colId": "history",
     "containerId": "",
     "name": "localhost:3000/",
-    "url": "localhost:3000/",
+    "url": "localhost:3000/products/search?q",
     "method": "GET",
     "sortNum": 0,
     "created": "2022-10-11T18:40:44.887Z",
-    "modified": "2022-10-11T20:04:50.181Z",
+    "modified": "2022-10-17T18:17:57.400Z",
     "headers": [],
-    "params": [],
+    "params": [
+      {
+        "name": "q",
+        "value": "",
+        "isPath": false
+      }
+    ],
     "tests": []
   },
   {
@@ -18,16 +24,16 @@
     "colId": "history",
     "containerId": "",
     "name": "localhost:3000/products",
-    "url": "localhost:3000/sales/1",
-    "method": "GET",
+    "url": "localhost:3000/sales/15",
+    "method": "PUT",
     "sortNum": 0,
     "created": "2022-10-11T19:44:56.832Z",
-    "modified": "2022-10-16T18:24:53.436Z",
+    "modified": "2022-10-16T22:39:32.453Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"name\": \"gelso\"\n}",
+      "raw": "[\n  {\n    \"productId\": 1,\n    \"quantity\": 10\n  },\n  {\n    \"productId\": 2,\n    \"quantity\": 5\n  }\n]",
       "form": []
     },
     "tests": []

@@ -8,7 +8,7 @@ const insert = async (venda, insertId) => {
   // const placeholders = Object.keys(venda)
   //   .map((_key) => '?')
   //   .join(', ');
-   
+
   // const result = await connection.execute(
   //   `INSERT INTO StoreManager.sales_products (${columns}) VALUES (${placeholders})`,
   //   [...Object.values(venda)],
@@ -16,7 +16,15 @@ const insert = async (venda, insertId) => {
   const result = await connection.execute(
     'INSERT INTO StoreManager.sales_products (sale_id, product_id, quantity)'
     + ` VALUES (${insertId},${venda.productId},${venda.quantity})`,
-  );  
+  );
+  return result;
+};
+
+const updateSaleM = async (quantity, produtId, id) => {
+  const result = await connection.execute(
+    'UPDATE StoreManager.sales_products SET quantity = ? WHERE sale_id = ? AND  product_id = ?',
+    [quantity, id, produtId],
+  );
   return result;
 };
 
@@ -58,4 +66,5 @@ module.exports = {
   listSales,
   asId,
   deleteIdSales,
+  updateSaleM,
 };
